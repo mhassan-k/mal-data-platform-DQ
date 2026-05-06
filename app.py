@@ -155,13 +155,7 @@ elif page == "Schema Compliance":
     # Detailed rule results
     st.subheader("Validation Rules")
     checks = check_schema_compliance(df)
-    st.dataframe(
-        checks.style.background_gradient(
-            subset=["pass_rate"], cmap="RdYlGn", vmin=90, vmax=100
-        ),
-        use_container_width=True,
-        hide_index=True,
-    )
+    st.dataframe(checks, use_container_width=True, hide_index=True)
 
     # Per-source breakdown
     st.subheader("Compliance by Source & Rule")
@@ -287,13 +281,7 @@ elif page == "Anomaly Detection":
         "null_pct", ascending=False
     )
     if len(high_nulls):
-        st.dataframe(
-            high_nulls.style.background_gradient(
-                subset=["null_pct"], cmap="OrRd", vmin=0, vmax=100
-            ),
-            use_container_width=True,
-            hide_index=True,
-        )
+        st.dataframe(high_nulls, use_container_width=True, hide_index=True)
     else:
         st.success("No null values detected in any column")
 
@@ -303,12 +291,7 @@ elif page == "Anomaly Detection":
         index="source_system", columns="column", values="null_pct", fill_value=0
     )
     if len(pivot_nulls):
-        st.dataframe(
-            pivot_nulls.style.background_gradient(cmap="OrRd", vmin=0, vmax=100).format(
-                "{:.1f}%"
-            ),
-            use_container_width=True,
-        )
+        st.dataframe(pivot_nulls.round(1), use_container_width=True)
 
     st.divider()
 
